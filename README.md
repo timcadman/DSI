@@ -22,6 +22,7 @@ aggregation and assignment return a result object; DataSHIELD setup status check
 configuration comparision),
 * `DSResult` wraps access to the result, which can be fetched either synchronously or asynchronously 
 depending on the capabilities of the data repository server.
+* `DSSession` represents the remote R session and is used to get its state when it is started.
 
 All classes are *virtual*: they cannot be instantiated directly and instead must be subclassed. See [DSOpal](https://datashield.github.io/DSOpal/) for a reference implementation of DSI based on the [Opal](https://www.obiba.org/pages/products/opal/) data warehouse. See also [DSLite](https://datashield.github.io/DSLite/) for a server-less implementation of DSI for local datasets.
 
@@ -33,6 +34,7 @@ In addition to these S4 classes, DSI provides functions to handle a list of remo
 
 * `datashield.login` and `datashield.logout` will make use of the `DSDriver` paradigm to create `DSConnection`s
 to the data repositories,
+* `datashield.sessions` will ensure that the remote R sessions are up and running before any operation in the remote R sessions.
 * `datashield.aggregate` and `datashield.assign` will perform typical DataSHIELD operations on `DSConnection`s, 
 which result will be fetched through `DSResult` objects,
 * `datashield.connections`, `datashield.connections_default` and `datashield.connections_find` are functions

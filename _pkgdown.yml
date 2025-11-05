@@ -2,3 +2,4 @@ template:
   bootstrap: 5
   params:
     bootswatch: simplex
+url: https://datashield.github.io/DSI/
