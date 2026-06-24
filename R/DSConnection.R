@@ -476,6 +476,30 @@ setGeneric("dsIsAsync",
            def = function(conn) standardGeneric("dsIsAsync"),
            valueClass = "list")
 
+#' Polling delay between asynchronous completion checks
+#'
+#' Returns the number of seconds to wait before the next completion check while
+#' polling an asynchronous DataSHIELD operation, given how many checks have been
+#' made so far. The default method reproduces the historical schedule
+#' (see internal \code{.getSleepTime}) for every connection, so behaviour is
+#' unchanged unless a backend overrides it. A backend may define a method to tune
+#' its own polling cadence (e.g. a lower first delay for a low-latency server)
+#' without affecting other backends sharing the session.
+#'
+#' @param conn An object that inherits from \code{\link{DSConnection-class}}.
+#' @param checks The number of completion checks already performed (>= 1).
+#' @return A single positive number of seconds to sleep before the next check.
+#'
+#' @family DSConnection generics
+#' @export
+setGeneric("dsPollDelay",
+           def = function(conn, checks) standardGeneric("dsPollDelay"),
+           valueClass = "numeric")
+
+#' @rdname dsPollDelay
+#' @export
+setMethod("dsPollDelay", "DSConnection", function(conn, checks) .getSleepTime(checks))
+
 #' Keep a connection alive
 #'
 #' As the DataSHIELD sessions are working in parallel, this function helps at keeping

@@ -198,7 +198,7 @@ datashield.assign.table <- function(conns, symbol, table, variables=NULL, missin
       }
       if (!all(completed)) {
         .updateProgress(pb, step = length(subset(completed, completed == TRUE)), total = length(fconns), tokens = list(what = paste0("Waiting... ", " (", symbol, " <- ...)")))
-        Sys.sleep(.getSleepTime(checks))
+        Sys.sleep(.pollDelay(fconns, checks))
         checks <- checks + 1
       }
     }
@@ -354,7 +354,7 @@ datashield.assign.resource <- function(conns, symbol, resource, async=TRUE, succ
       }
       if (!all(completed)) {
         .updateProgress(pb, step = length(subset(completed, completed == TRUE)), total = length(fconns), tokens = list(what = paste0("Waiting... ", " (", symbol, " <- ...)")))
-        Sys.sleep(.getSleepTime(checks))
+        Sys.sleep(.pollDelay(fconns, checks))
         checks <- checks + 1
       }
     }
@@ -500,7 +500,7 @@ datashield.assign.expr <- function(conns, symbol, expr, async=TRUE, success=NULL
       }
       if (!all(completed)) {
         .updateProgress(pb, step = length(subset(completed, completed == TRUE)), total = length(fconns), tokens = list(what = paste0("Waiting... ", " (", symbol, " <- ", ifelse(is.vector(expr), "...", .deparse(expr)), ")")))
-        Sys.sleep(.getSleepTime(checks))
+        Sys.sleep(.pollDelay(fconns, checks))
         checks <- checks + 1
       }
     }

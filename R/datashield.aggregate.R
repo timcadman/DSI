@@ -130,7 +130,7 @@ datashield.aggregate <- function(conns, expr, async=TRUE, success=NULL, error=NU
       }
       if (!all(completed)) {
         .updateProgress(pb, step = length(subset(completed, completed == TRUE)), total = length(fconns), tokens = list(what = paste0("Waiting... ", " (", ifelse(is.vector(expr), "...", .deparse(expr)), ")")))
-        Sys.sleep(.getSleepTime(checks))
+        Sys.sleep(.pollDelay(fconns, checks))
         checks <- checks + 1
       }
     }

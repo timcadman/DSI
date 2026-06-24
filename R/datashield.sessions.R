@@ -108,7 +108,7 @@ datashield.sessions <- function(conns, async=TRUE, success=NULL, error=NULL, err
       }
       if (!all(completed)) {
         .updateProgress(pb, step = length(subset(completed, completed == TRUE)), total = length(fconns), tokens = list(what = paste(messages, collapse = ", ")))
-        Sys.sleep(.getSleepTime(checks))
+        Sys.sleep(.pollDelay(fconns, checks))
         checks <- checks + 1
       }
     }

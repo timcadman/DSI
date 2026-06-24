@@ -150,7 +150,19 @@
   !is.null(cb) && is.function(cb)
 }
 
-#' Get time to sleep depending on the numer of previous iterations
+# Per-iteration polling delay across a set of connections: the shortest delay any
+# pending connection asks for (so the loop wakes in time for the most eager backend).
+# Falls back to the legacy schedule for an empty/odd input. Uses the dsPollDelay
+# generic, whose default method is .getSleepTime, so behaviour is unchanged unless
+# a backend overrides dsPollDelay.
+#' @keywords internal
+.pollDelay <- function(conns, checks) {
+  if (!is.list(conns)) conns <- list(conns)
+  if (length(conns) == 0) return(.getSleepTime(checks))
+  min(vapply(conns, function(cn) dsPollDelay(cn, checks), numeric(1)))
+}
+
+#' Get time to sleep depending on the number of previous iterations
 #' @keywords internal
 .getSleepTime <- function(checks) {
   t0 <- getOption("datashield.polling.sleep.0", 0.05)
